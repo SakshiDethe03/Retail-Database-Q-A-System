@@ -1,6 +1,5 @@
 import os
 from langchain_openai import ChatOpenAI
-from key import openrouter_api_key
 from langchain_community.utilities import SQLDatabase
 from key import sql_pass
 from langchain_experimental.sql import SQLDatabaseChain
@@ -11,16 +10,13 @@ from langchain_core.prompts import FewShotPromptTemplate
 from langchain_core.prompts.prompt import PromptTemplate
 from few_shots import few_shots
 
-from dotenv import load_dotenv
-load_dotenv()
-
-# llm = ChatOpenAI(openai_api_key=os.environ["OPENROUTER_API_KEY"], temperature=0.1)
+api_key = os.getenv("OPENAI_API_KEY")
 
 def get_few_shot_db_chain():
     llm = ChatOpenAI(
         model="nvidia/nemotron-3-super-120b-a12b:free",
         base_url="https://openrouter.ai/api/v1",
-        api_key=os.environ["OPENROUTER_API_KEY"],
+        api_key=api_key,
         temperature=0.6
     )
 
@@ -29,8 +25,7 @@ def get_few_shot_db_chain():
     db_host = "localhost"
     db_name = "atliq_tshirts"
 
-    db = SQLDatabase.from_uri(f"mysql+pymysql://{db_user}:{db_password}@{db_host}/{db_name}",
-                              sample_rows_in_table_info=3)
+    db = SQLDatabase.from_uri(f"mysql+pymysql://{db_user}:{db_password}@{db_host}/{db_name}", sample_rows_in_table_info=3)
 
     embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
     to_vectorize = [" ".join(map(str, example.values())) for example in few_shots]
@@ -59,7 +54,6 @@ def get_few_shot_db_chain():
     prompt_suffix = """
     Question: {input}
     SQLQuery:
-    Answer:
     """
 
     example_prompt = PromptTemplate(
