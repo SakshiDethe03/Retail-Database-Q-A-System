@@ -3,6 +3,10 @@
 An AI-powered Question Answering system that allows users to query a MySQL database using natural language. The system
 converts user questions into SQL queries, executes them, and returns clean, human-readable answers.
 
+<img width="1919" height="963" alt="Screenshot 2026-03-20 130007" src="https://github.com/user-attachments/assets/0846ca81-5afd-4b23-b6ee-ab2cd79048c7" />
+
+
+
 <h4>🚀 Features</h4>
 <ul>
     <li>🔍 Ask questions in plain English</li>
