@@ -9,5 +9,7 @@ question = st.text_input("Question: ")
 if question:
     chain = get_few_shot_db_chain()
     ans = chain.run(question)
+    final_answer = ans.split("Answer:")[-1].strip()
+
     st.header("Answer:")
-    st.write(ans)
+    st.write(final_answer)
